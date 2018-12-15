@@ -17,7 +17,7 @@ const NavBar = ({
       <ul className="top-nav">
         <Link to="/home"><li>Home</li></Link>
         <Link to="/workout_history"><li>Workout History</li></Link>
-        <Link to="/equipment_history"><li>Equipment Statistics</li></Link>
+        <Link to="/equipment_statistics"><li>Equipment Statistics</li></Link>
       </ul>
       <button onClick={() => {
         logout();
