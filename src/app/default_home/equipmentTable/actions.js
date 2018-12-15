@@ -1,29 +1,24 @@
-export const initialItems = (res) => ({
-	type: "INITIAL_DATA",
-	data: res
-})
-
-export const newItems = (res) => ({
-  type: "NEW_DATA",
-	data: res
-})
-
-export const loadInitialData = (socket) => {
-	return (dispatch) => {
-	  socket.on('initialList',(res)=>{
-	  console.dir(res)
-	  dispatch(initialItems(res))
-	  })
-	  socket.on('error', (err) => {
-	  	console.log('error');
-	  });
-	}
+export function loadInitialData(socket) {
+  return async function (dispatch) {
+    socket.on('initialList', (res) => {
+      dispatch({
+        type: 'INITIAL_DATA',
+        data: res,
+      });
+    });
+    socket.on('error', (err) => {
+      console.log(err);
+    });
+  };
 }
 
-export const listenForUpdates = (socket) => {
-	return (dispatch) => {
-	  socket.on('newMember', (res) => {
-			dispatch(newItems(res))
-		})
-	}
+export function listenForUpdates(socket) {
+  return async function (dispatch) {
+    socket.on('newMember', (res) => {
+      dispatch({
+        type: 'NEW_DATA',
+        data: res,
+      });
+    });
+  };
 }

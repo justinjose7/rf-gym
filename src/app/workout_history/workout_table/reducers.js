@@ -1,19 +1,22 @@
 import { List } from 'immutable';
+import { GET_MEMBER_HISTORY, ERROR_MSG } from './actions';
 
-const initialState = { data: List([]) };
+const initialState = { data: List([]), user: '', msg: '' };
 
 
 const reducers = (state = initialState, action) => {
   switch (action.type) {
-    case 'INITIAL_DATA':
+    case GET_MEMBER_HISTORY:
       return {
         ...state,
-        data: List(action.data),
+        data: action.data,
       };
-    case 'NEW_DATA':
+
+    case ERROR_MSG:
       return {
         ...state,
-        data: List(action.data),
+        msg: action.msg,
+        data: List([]),
       };
     default:
       return state;

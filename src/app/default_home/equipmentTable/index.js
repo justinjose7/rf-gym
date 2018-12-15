@@ -1,89 +1,97 @@
 import io from 'socket.io-client';
-import React from 'react';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import React, { Component } from 'react';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { createMuiTheme, withStyles } from '@material-ui/core/styles';
+import { bindActionCreators } from 'redux';
+import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { loadInitialData, listenForUpdates } from './actions';
-import './index.css'
 
 const StyledTableCell = withStyles({
   root: {
     color: 'white',
     padding: '0 30px',
+    textAlign: 'left',
   },
 })(TableCell);
 
 const StyledPaper = withStyles({
   root: {
-    right: '100%',
-    // marginTop: '15px',
-    // marginLeft: '15px',
+    position: 'relative',
+    margin: '5px',
     borderRadius: '5px',
-    background: '#222',
-    width: '40%',
+    background: '#111',
+    boxShadow: '0 0 35px black',
     opacity: '0.9',
   },
 })(Paper);
 
-let socket
+let socket;
 
-class EquipmentTable extends React.Component{
-  constructor(props) {
-    super(props)
-    socket = io.connect('/')
+class EquipmentTable extends Component {
+  componentDidMount() {
+    socket = io.connect('/');
     socket.on('error', (err) => {
       console.log(err);
     });
-    this.props.loadInitialData(socket)
+    const { loadInitialData } = this.props;
+    loadInitialData(socket);
+    // listenForUpdates(socket);
   }
 
-  componentWillMount() {
-    this.props.listenForUpdates(socket);
-  }
 
   componentWillUnmount() {
-    socket.disconnect()
+    socket.disconnect();
   }
 
   render() {
-    const {data} = this.props.default_home
+    console.log(this.props);
+    const { data } = this.props;
     return (
-      <MuiThemeProvider>
-        <StyledPaper id ="table">
-          <Table>
-            <TableHead>
-              <TableRow id ="table">
-                <StyledTableCell>Member Name</StyledTableCell>
-                <StyledTableCell numeric>Member Id</StyledTableCell>
-                <StyledTableCell numeric>Date started</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data.slice(0,10).map((n, key) => {
-                return (
-                  <TableRow key={key} id ="table">
-                    <StyledTableCell component="th" scope="row">{n.member_name}</StyledTableCell>
-                    <StyledTableCell numeric>{n.member_id}</StyledTableCell>
-                    <StyledTableCell numeric>{n.date_started}</StyledTableCell>
+      <div>
+        <MuiThemeProvider>
+          <StyledPaper>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell numeric>Equipment Name</StyledTableCell>
+                  <StyledTableCell numeric>Equipment Id</StyledTableCell>
+                  <StyledTableCell numeric>Status</StyledTableCell>
+
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {data.slice(0, data.length).map((n, key) => (
+                  <TableRow key={key}>
+                    <StyledTableCell numeric>{n.equipmentName}</StyledTableCell>
+                    <StyledTableCell numeric>{n.equipmentId}</StyledTableCell>
+                    <StyledTableCell>{n.inUse ? 'Busy' : 'Available'}</StyledTableCell>
+                    {/* <StyledTableCell numeric>
+                      {(new Date(n.outTime).getTime() - new Date(n.inTime).getTime()) / (1000 * 60)}
+                    </StyledTableCell> */}
                   </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </StyledPaper>
-      </MuiThemeProvider>
+                ))}
+              </TableBody>
+            </Table>
+          </StyledPaper>
+        </MuiThemeProvider>
+      </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  return {...state};
-};
+const mapStateToProps = state => ({
+  data: state.equipment_status.data,
+});
 
-export default connect(mapStateToProps, {loadInitialData, listenForUpdates})(EquipmentTable);
+const mapDispatchToProps = dispatch => bindActionCreators({
+  loadInitialData,
+  listenForUpdates,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(EquipmentTable);
