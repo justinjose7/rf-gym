@@ -12,8 +12,11 @@ import { getMemberHistory } from './actions';
 
 const styles = theme => ({
   root: {
+    marginLeft: '25%',
+    marginRight: '25%',
     display: 'flex',
     flexDirection: 'column',
+    justifyContent: 'center',
     flexWrap: 'wrap',
   },
   textField: {
@@ -58,27 +61,29 @@ class WorkoutTableContainer extends Component {
 
     if (user) {
       return (
-        <div>
-          <TextField
-            className={classes.textField}
-            type="text"
-            placeholder="Filter equipment"
-            inputRef={input => this.equipmentQuery = input}
-            onChange={() => getMemberHistory({ userId: user.userId, equipmentName: this.equipmentQuery.value, timePeriod })}
-          />
-          <FormControl className={classes.formControl}>
-            <Select
-              value={timePeriod}
-              onChange={this.handleChange}
-              displayEmpty
-              name="timePeriod"
-              className={classes.selectEmpty}
-            >
-              <MenuItem value="day">Past Day</MenuItem>
-              <MenuItem value="week">Past Week</MenuItem>
-              <MenuItem value="month">Past Month</MenuItem>
-            </Select>
-          </FormControl>
+        <div className={classes.root}>
+          <div>
+            <TextField
+              className={classes.textField}
+              type="text"
+              placeholder="Filter equipment"
+              inputRef={input => this.equipmentQuery = input}
+              onChange={() => getMemberHistory({ userId: user.userId, equipmentName: this.equipmentQuery.value, timePeriod })}
+            />
+            <FormControl className={classes.formControl}>
+              <Select
+                value={timePeriod}
+                onChange={this.handleChange}
+                displayEmpty
+                name="timePeriod"
+                className={classes.selectEmpty}
+              >
+                <MenuItem value="day">Past Day</MenuItem>
+                <MenuItem value="week">Past Week</MenuItem>
+                <MenuItem value="month">Past Month</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
           <WorkoutTable data={data} />
         </div>
       );

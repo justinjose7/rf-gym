@@ -12,7 +12,7 @@ import { Provider } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import logger from 'redux-logger';
 import thunk from 'redux-thunk';
-import EquipmentTable from './default_home/equipmentTable';
+import EquipmentTable from './home/equipmentTable';
 import DefaultHome from './default_home';
 import WorkoutHistory from './workout_history';
 import EquipmentStatistics from './equipment_statistics';
