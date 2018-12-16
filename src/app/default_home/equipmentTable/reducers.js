@@ -1,6 +1,4 @@
-import { List } from 'immutable';
-
-const initialState = { data: List([]) };
+const initialState = { data: [] };
 
 
 const reducers = (state = initialState, action) => {
@@ -8,12 +6,12 @@ const reducers = (state = initialState, action) => {
     case 'INITIAL_DATA':
       return {
         ...state,
-        data: List(action.data),
+        data: action.data,
       };
     case 'NEW_DATA':
       return {
         ...state,
-        data: List(action.data),
+        data: action.data,
       };
     default:
       return state;

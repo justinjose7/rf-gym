@@ -97,5 +97,70 @@ Router.post('/equipment_times', (req, res) => {
   });
 });
 
+Router.post('/equipment_day_of_week_times', (req, res) => {
+  const { equipmentName, timePeriod } = req.body;
+  const daysPerPeriod = {
+    day: 1,
+    week: 7,
+    month: 30,
+  };
+  EquipmentHistory.aggregate(
+    [
+      {
+        $match: {
+          equipmentName,
+          inTime: {
+            $gte: new Date(new Date() - daysPerPeriod[timePeriod] * 60 * 60 * 24 * 1000),
+          },
+
+        },
+      },
+
+      {
+        $project: {
+          equipmentName: '$equipmentName',
+          minutesUsed: { $divide: [{ $subtract: ['$outTime', '$inTime'] }, 60000] },
+          useDate: '$inTime',
+        },
+      },
+
+      {
+        $group: {
+          _id: { dayWeek: { $dayOfWeek: '$useDate' } },
+          totalMinutes: { $sum: '$minutesUsed' },
+        },
+      },
+
+    ],
+  ).exec((err, doc) => {
+    if (!doc) {
+      return res.json({ code: 1, msg: 'No data found', data: {} });
+    }
+    return res.json({ code: 0, data: doc });
+  });
+});
+
+
+Router.get('/list_equipment_names', (req, res) => {
+  Equipment.aggregate(
+    [
+      {
+        $group: {
+          _id: { equipmentName: '$equipmentName' },
+        },
+      },
+
+      {
+        $sort: { '_id.equipmentName': 1 },
+      },
+    ],
+  ).exec((err, doc) => {
+    if (!doc) {
+      return res.json({ code: 1, msg: 'No data found', data: {} });
+    }
+    return res.json({ code: 0, data: doc });
+  });
+});
+
 
 module.exports = Router;

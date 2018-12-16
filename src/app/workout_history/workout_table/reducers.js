@@ -1,7 +1,6 @@
-import { List } from 'immutable';
 import { GET_MEMBER_HISTORY, ERROR_MSG } from './actions';
 
-const initialState = { data: List([]), user: '', msg: '' };
+const initialState = { data: [], user: '', msg: '' };
 
 
 const reducers = (state = initialState, action) => {
@@ -16,7 +15,7 @@ const reducers = (state = initialState, action) => {
       return {
         ...state,
         msg: action.msg,
-        data: List([]),
+        data: [],
       };
     default:
       return state;

@@ -37,7 +37,7 @@ const PopularEquipmentTable = ({ data, classes }) => (
           <TableHead>
             <TableRow>
               <StyledTableCell numeric>Equipment Name</StyledTableCell>
-              <StyledTableCell numeric>Total Minutes Used</StyledTableCell>
+              <StyledTableCell numeric>Total Time Used</StyledTableCell>
 
             </TableRow>
           </TableHead>
@@ -45,7 +45,15 @@ const PopularEquipmentTable = ({ data, classes }) => (
             {data.slice(0, data.length).map((n, key) => (
               <TableRow key={key}>
                 <StyledTableCell numeric>{n._id.equipmentName}</StyledTableCell>
-                <StyledTableCell>{n.totalMinutes}</StyledTableCell>
+                <StyledTableCell>
+                  {Math.floor(n.totalMinutes / 60)}
+                  {' '}
+hours
+                  {' '}
+                  {n.totalMinutes % 60}
+                  {' '}
+minutes
+                </StyledTableCell>
                 {/* <StyledTableCell numeric>
                       {(new Date(n.outTime).getTime() - new Date(n.inTime).getTime()) / (1000 * 60)}
                     </StyledTableCell> */}

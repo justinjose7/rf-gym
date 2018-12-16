@@ -4,7 +4,6 @@ export const GET_EQUIPMENT_TIMES = 'GET_EQUIPMENT_TIMES';
 
 export const ERROR_MSG = 'ERROR_MSG';
 
-
 export function getEquipmentTimes({ equipmentName, timePeriod }) {
   return async function (dispatch) {
     axios.post('/gym/equipment_times', { equipmentName, timePeriod })

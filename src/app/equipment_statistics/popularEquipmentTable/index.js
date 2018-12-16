@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Redirect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import './index.css';
@@ -82,6 +82,13 @@ class PopularEquipmentTableContainer extends Component {
       );
     }
     return <p>Loading</p>;
+    // if (user && !user.isAdmin) {
+    //   return <p>Insufficient privileges</p>;
+    // }
+    // if (!user) {
+    //   return <p>Loading</p>;
+    // }
+    // return <p />;
   }
 }
 
