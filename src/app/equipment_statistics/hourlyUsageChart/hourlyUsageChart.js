@@ -1,15 +1,15 @@
 import React from 'react';
 import ChartComponent, { Bar } from 'react-chartjs-2';
 
-const WeeklyUsageChart = ({ data }) => (
+const HourlyUsageChart = ({ data }) => (
   <div>
-    <h2>Total Equipment Usage Grouped By Day of the Week</h2>
+    <h2>Total Equipment Usage Grouped By Hour of the Day</h2>
     <Bar
       data={data}
       width={600}
-      height={450}
+      height={485}
     />
   </div>
 );
 
-export default WeeklyUsageChart;
+export default HourlyUsageChart;

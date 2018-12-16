@@ -93,8 +93,8 @@ class WeeklyUsageChartContainer extends Component {
 
 const mapStateToProps = state => ({
   user: state.login_details.data,
-  chartData: state.equipment_day_of_week_stats.chartData,
-  listEquipment: state.equipment_day_of_week_stats.listEquipment,
+  chartData: state.equipment_statistics.weeklyChartData,
+  listEquipment: state.equipment_statistics.listEquipment,
 });
 
 

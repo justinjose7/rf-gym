@@ -94,7 +94,7 @@ class PopularEquipmentTableContainer extends Component {
 
 const mapStateToProps = state => ({
   user: state.login_details.data,
-  data: state.equipment_statistics.data,
+  data: state.equipment_statistics.equipmentTimes,
 });
 
 

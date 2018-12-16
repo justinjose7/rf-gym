@@ -1,8 +1,9 @@
 import { GET_EQUIPMENT_DAY_OF_WEEK_TIMES, ERROR_MSG, GET_LIST_EQUIPMENT_NAMES } from './weeklyUsageChart/actions';
 import { GET_EQUIPMENT_TIMES } from './popularEquipmentTable/actions';
+import { GET_EQUIPMENT_HOURLY_TIMES } from './hourlyUsageChart/actions';
 
 const initialState = {
-  chartData: [], msg: '', listEquipment: [], equipmentTimes: [],
+  weeklyChartData: [], hourlyChartData: [], msg: '', listEquipment: [], equipmentTimes: [],
 };
 
 
@@ -11,7 +12,12 @@ const reducers = (state = initialState, action) => {
     case GET_EQUIPMENT_DAY_OF_WEEK_TIMES:
       return {
         ...state,
-        chartData: action.data,
+        weeklyChartData: action.data,
+      };
+    case GET_EQUIPMENT_HOURLY_TIMES:
+      return {
+        ...state,
+        hourlyChartData: action.data,
       };
     case GET_LIST_EQUIPMENT_NAMES:
       return {

@@ -6,8 +6,8 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import WeeklyUsageChart from './weeklyUsageChart';
-import { getEquipmentDayOfWeekTimes, getListEquipmentNames } from './actions';
+import HourlyUsageChart from './hourlyUsageChart';
+import { getEquipmentHourlyTimes, getListEquipmentNames } from './actions';
 
 const styles = theme => ({
   root: {
@@ -32,29 +32,29 @@ const styles = theme => ({
 });
 
 
-class WeeklyUsageChartContainer extends Component {
+class HourlyUsageChartContainer extends Component {
   state = {
     equipmentName: 'Bench Press',
     timePeriod: 'week',
   }
 
   componentDidMount() {
-    const { getEquipmentDayOfWeekTimes, getListEquipmentNames } = this.props;
+    const { getEquipmentHourlyTimes, getListEquipmentNames } = this.props;
     getListEquipmentNames();
-    getEquipmentDayOfWeekTimes({ equipmentName: 'Bench Press', timePeriod: 'week' });
+    getEquipmentHourlyTimes({ equipmentName: 'Bench Press', timePeriod: 'week' });
   }
 
 
   handleChange = (event) => {
-    const { getEquipmentDayOfWeekTimes } = this.props;
+    const { getEquipmentHourlyTimes } = this.props;
 
     this.setState({ [event.target.name]: event.target.value },
-      () => getEquipmentDayOfWeekTimes({ equipmentName: this.state.equipmentName, timePeriod: this.state.timePeriod }));
+      () => getEquipmentHourlyTimes({ equipmentName: this.state.equipmentName, timePeriod: this.state.timePeriod }));
   };
 
   render() {
     const {
-      getEquipmentDayOfWeekTimes, chartData, classes, user, listEquipment,
+      getEquipmentHourlyTimes, chartData, classes, user, listEquipment,
     } = this.props;
     const { equipmentName, timePeriod } = this.state;
 
@@ -82,7 +82,7 @@ class WeeklyUsageChartContainer extends Component {
                 <MenuItem value="month">Past Month</MenuItem>
               </Select>
             </div>
-            <WeeklyUsageChart data={chartData} />
+            <HourlyUsageChart data={chartData} />
           </FormControl>
         </div>
       );
@@ -93,13 +93,13 @@ class WeeklyUsageChartContainer extends Component {
 
 const mapStateToProps = state => ({
   user: state.login_details.data,
-  chartData: state.equipment_day_of_week_stats.chartData,
-  listEquipment: state.equipment_day_of_week_stats.listEquipment,
+  chartData: state.equipment_statistics.hourlyChartData,
+  listEquipment: state.equipment_statistics.listEquipment,
 });
 
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  getEquipmentDayOfWeekTimes, getListEquipmentNames,
+  getEquipmentHourlyTimes, getListEquipmentNames,
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(WeeklyUsageChartContainer));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(HourlyUsageChartContainer));
