@@ -38,26 +38,32 @@ const styles = theme => ({
 class WorkoutTableContainer extends Component {
   state = {
     timePeriod: 'week',
+    equipmentName: '',
   }
 
   componentDidMount() {
-    const { getMemberHistory, user } = this.props;
-    if (user) {
-      getMemberHistory({ userId: user.userId, equipmentName: '', timePeriod: 'week' });
-    }
+    this.updateGymMemberHistoryData();
   }
 
   handleChange = (event) => {
     const { getMemberHistory, user } = this.props;
     this.setState({ [event.target.name]: event.target.value },
-      () => getMemberHistory({ userId: user.userId, equipmentName: '', timePeriod: this.state.timePeriod }));
+      () => this.updateGymMemberHistoryData());
   };
+
+  updateGymMemberHistoryData() {
+    const { getMemberHistory, user } = this.props;
+    const { timePeriod, equipmentName } = this.state;
+    if (user) {
+      getMemberHistory({ userId: user.userId, equipmentName, timePeriod });
+    }
+  }
 
   render() {
     const {
       getMemberHistory, user, data, classes,
     } = this.props;
-    const { timePeriod } = this.state;
+    const { timePeriod, equipmentName } = this.state;
 
     if (user) {
       return (
@@ -65,10 +71,11 @@ class WorkoutTableContainer extends Component {
           <div>
             <TextField
               className={classes.textField}
+              value={equipmentName}
+              name="equipmentName"
               type="text"
               placeholder="Filter equipment"
-              inputRef={input => this.equipmentQuery = input}
-              onChange={() => getMemberHistory({ userId: user.userId, equipmentName: this.equipmentQuery.value, timePeriod })}
+              onChange={this.handleChange}
             />
             <FormControl className={classes.formControl}>
               <Select

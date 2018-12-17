@@ -35,24 +35,29 @@ const styles = theme => ({
 class PopularEquipmentTableContainer extends Component {
   state = {
     timePeriod: 'week',
+    equipmentName: '',
   }
 
   componentDidMount() {
-    const { getEquipmentTimes } = this.props;
-    getEquipmentTimes({ equipmentName: '', timePeriod: 'week' });
+    this.updatePopularEquipmentData();
   }
 
   handleChange = (event) => {
-    const { getEquipmentTimes } = this.props;
     this.setState({ [event.target.name]: event.target.value },
-      () => getEquipmentTimes({ equipmentName: '', timePeriod: this.state.timePeriod }));
+      () => this.updatePopularEquipmentData());
   };
+
+  updatePopularEquipmentData() {
+    const { getEquipmentTimes } = this.props;
+    const { equipmentName, timePeriod } = this.state;
+    getEquipmentTimes({ equipmentName, timePeriod });
+  }
 
   render() {
     const {
-      getEquipmentTimes, data, classes, user,
+      data, classes, user,
     } = this.props;
-    const { timePeriod } = this.state;
+    const { timePeriod, equipmentName } = this.state;
 
     if (user) {
       return (
@@ -60,9 +65,10 @@ class PopularEquipmentTableContainer extends Component {
           <TextField
             className={classes.textField}
             type="text"
+            value={equipmentName}
             placeholder="Filter equipment"
-            inputRef={input => this.equipmentQuery = input}
-            onChange={() => getEquipmentTimes({ equipmentName: this.equipmentQuery.value, timePeriod })}
+            name="equipmentName"
+            onChange={this.handleChange}
           />
           <FormControl className={classes.formControl}>
             <Select
