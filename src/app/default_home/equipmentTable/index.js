@@ -39,9 +39,9 @@ class EquipmentTable extends Component {
     socket.on('error', (err) => {
       console.log(err);
     });
-    const { loadInitialData } = this.props;
+    const { loadInitialData, listenForUpdates } = this.props;
     loadInitialData(socket);
-    // listenForUpdates(socket);
+    listenForUpdates(socket);
   }
 
 
@@ -71,9 +71,6 @@ class EquipmentTable extends Component {
                     <StyledTableCell numeric>{n.equipmentName}</StyledTableCell>
                     <StyledTableCell numeric>{n.equipmentId}</StyledTableCell>
                     <StyledTableCell>{n.inUse ? 'Busy' : 'Available'}</StyledTableCell>
-                    {/* <StyledTableCell numeric>
-                      {(new Date(n.outTime).getTime() - new Date(n.inTime).getTime()) / (1000 * 60)}
-                    </StyledTableCell> */}
                   </TableRow>
                 ))}
               </TableBody>

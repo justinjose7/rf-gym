@@ -5,7 +5,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 import WeeklyUsageChart from './weeklyUsageChart';
 import { getEquipmentDayOfWeekTimes, getListEquipmentNames } from './actions';
 
@@ -39,22 +38,26 @@ class WeeklyUsageChartContainer extends Component {
   }
 
   componentDidMount() {
-    const { getEquipmentDayOfWeekTimes, getListEquipmentNames } = this.props;
+    const { getListEquipmentNames } = this.props;
     getListEquipmentNames();
-    getEquipmentDayOfWeekTimes({ equipmentName: 'Bench Press', timePeriod: 'week' });
+    this.updateWeeklyUsageChartData();
   }
 
 
   handleChange = (event) => {
-    const { getEquipmentDayOfWeekTimes } = this.props;
-
     this.setState({ [event.target.name]: event.target.value },
-      () => getEquipmentDayOfWeekTimes({ equipmentName: this.state.equipmentName, timePeriod: this.state.timePeriod }));
+      () => this.updateWeeklyUsageChartData());
   };
+
+  updateWeeklyUsageChartData() {
+    const { getEquipmentDayOfWeekTimes } = this.props;
+    const { equipmentName, timePeriod } = this.state;
+    getEquipmentDayOfWeekTimes({ equipmentName, timePeriod });
+  }
 
   render() {
     const {
-      getEquipmentDayOfWeekTimes, chartData, classes, user, listEquipment,
+      chartData, classes, user, listEquipment,
     } = this.props;
     const { equipmentName, timePeriod } = this.state;
 

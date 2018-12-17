@@ -5,7 +5,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 import HourlyUsageChart from './hourlyUsageChart';
 import { getEquipmentHourlyTimes, getListEquipmentNames } from './actions';
 
@@ -39,22 +38,26 @@ class HourlyUsageChartContainer extends Component {
   }
 
   componentDidMount() {
-    const { getEquipmentHourlyTimes, getListEquipmentNames } = this.props;
+    const { getListEquipmentNames } = this.props;
     getListEquipmentNames();
-    getEquipmentHourlyTimes({ equipmentName: 'Bench Press', timePeriod: 'week' });
+    this.updateHourlyUsageChartData();
   }
 
 
   handleChange = (event) => {
-    const { getEquipmentHourlyTimes } = this.props;
-
     this.setState({ [event.target.name]: event.target.value },
-      () => getEquipmentHourlyTimes({ equipmentName: this.state.equipmentName, timePeriod: this.state.timePeriod }));
+      () => this.updateHourlyUsageChartData());
   };
+
+  updateHourlyUsageChartData() {
+    const { getEquipmentHourlyTimes } = this.props;
+    const { equipmentName, timePeriod } = this.state;
+    getEquipmentHourlyTimes({ equipmentName, timePeriod });
+  }
 
   render() {
     const {
-      getEquipmentHourlyTimes, chartData, classes, user, listEquipment,
+      chartData, classes, user, listEquipment,
     } = this.props;
     const { equipmentName, timePeriod } = this.state;
 

@@ -46,7 +46,6 @@ class WorkoutTableContainer extends Component {
   }
 
   handleChange = (event) => {
-    const { getMemberHistory, user } = this.props;
     this.setState({ [event.target.name]: event.target.value },
       () => this.updateGymMemberHistoryData());
   };
@@ -61,7 +60,7 @@ class WorkoutTableContainer extends Component {
 
   render() {
     const {
-      getMemberHistory, user, data, classes,
+      user, data, classes,
     } = this.props;
     const { timePeriod, equipmentName } = this.state;
 
