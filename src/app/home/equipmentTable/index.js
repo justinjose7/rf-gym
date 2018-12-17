@@ -53,7 +53,7 @@ class EquipmentTable extends Component {
     });
     const { loadInitialData } = this.props;
     loadInitialData(socket);
-    // listenForUpdates(socket);
+    listenForUpdates(socket);
   }
 
 

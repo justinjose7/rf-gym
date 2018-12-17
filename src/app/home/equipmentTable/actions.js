@@ -14,7 +14,7 @@ export function loadInitialData(socket) {
 
 export function listenForUpdates(socket) {
   return async function (dispatch) {
-    socket.on('newMember', (res) => {
+    socket.on('newList', (res) => {
       dispatch({
         type: 'NEW_DATA',
         data: res,

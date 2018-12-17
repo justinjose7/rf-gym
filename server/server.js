@@ -72,30 +72,86 @@ io.on('connection', (socket) => {
     });
   });
 });
-// app.post('/queueUser', (req, res) => {
-//   const { userId, equipmentId, equipmentName } = req.body;
 
 
-//   const eqHistory = new equipmentHistoryModel({
-//     userId,
-//     equipmentId,
-//     equipmentName,
-//     inTime: new Date(),
-//   });
+app.post('/queue_user', (req, res) => {
+  const { userId, equipmentId, equipmentName } = req.body;
 
-//   eqHistory.save((err, result) => {
-//     if (err) {
-//       console.log('Error adding member');
-//     } else {
-//       eqHistory.find({}, (err, docs) => {
-//         if (err) {
-//           console.log('Error grabbing initial data');
-//         } else {
-//           io.emit('newMember', docs);
-//           console.log('Success grabbing initial data');
-//         }
-//       });
-//     }
-//     return res.json({ userId });
-//   });
-// });
+
+  const eqHistory = new equipmentHistoryModel({
+    userId,
+    equipmentId,
+    equipmentName,
+    inTime: new Date(),
+  });
+
+  equipmentHistoryModel.aggregate(
+    [
+      {
+        $match: { equipmentId, outTime: null },
+      },
+    ],
+  ).exec((err, doc) => {
+    if (doc.length > 0) {
+      return res.json({ code: 1, msg: 'Equipment busy' });
+    }
+    eqHistory.save((error) => {
+      if (error) {
+        return res.json({ code: 2, msg: 'Error while queuing' });
+      }
+      equipmentModel.findOneAndUpdate({ equipmentId }, { $set: { inUse: true } }, {}, (err2) => {
+        if (err2) {
+          return res.json({ code: 2, msg: 'Error while queuing' });
+        }
+        equipmentModel.find({}, ['equipmentName', 'equipmentId', 'inUse'], { sort: { equipmentName: 1 } }, (err3, docs) => {
+          if (err3) {
+            return res.json({ code: 2, msg: 'Error while grabbing new docs' });
+          }
+          console.log('emitted');
+          io.sockets.emit('newList', docs);
+          return res.json({ code: 0, msg: 'Success queuing', data: docs });
+        });
+      });
+    });
+
+    return res.json({ code: 0, msg: 'Success queuing' });
+  });
+});
+
+
+app.post('/dequeue_user', (req, res) => {
+  const { equipmentId } = req.body;
+
+
+  equipmentHistoryModel.aggregate(
+    [
+      {
+        $match: { equipmentId, outTime: null },
+      },
+    ],
+  ).exec((err, doc) => {
+    if (doc.length === 0) {
+      return res.json({ code: 1, msg: 'Equipment already available' });
+    }
+    equipmentHistoryModel.findOneAndUpdate({ equipmentId, outTime: null }, { $set: { outTime: new Date() } }, {}, (error) => {
+      if (error) {
+        return res.json({ code: 2, msg: 'Error while dequeuing' });
+      }
+      equipmentModel.findOneAndUpdate({ equipmentId }, { $set: { inUse: false } }, {}, (err2) => {
+        if (err2) {
+          return res.json({ code: 2, msg: 'Error while dequeuing' });
+        }
+        equipmentModel.find({}, ['equipmentName', 'equipmentId', 'inUse'], { sort: { equipmentName: 1 } }, (err3, docs) => {
+          if (err3) {
+            return res.json({ code: 2, msg: 'Error while grabbing new docs' });
+          }
+          console.log('emitted');
+          io.sockets.emit('newList', docs);
+          return res.json({ code: 0, msg: 'Success dequeuing' });
+        });
+      });
+    });
+
+    return res.json({ code: 0, msg: 'Success dequeuing' });
+  });
+});
