@@ -38,7 +38,7 @@ const WorkoutTable = ({ data, classes }) => (
             <TableRow>
               <StyledTableCell numeric>Equipment Name</StyledTableCell>
               <StyledTableCell numeric>Date</StyledTableCell>
-              <StyledTableCell numeric>Minutes Used</StyledTableCell>
+              <StyledTableCell numeric>Time Used</StyledTableCell>
 
             </TableRow>
           </TableHead>
@@ -47,10 +47,15 @@ const WorkoutTable = ({ data, classes }) => (
               <TableRow key={key}>
                 <StyledTableCell numeric>{n.equipmentName}</StyledTableCell>
                 <StyledTableCell numeric>{n.useDate}</StyledTableCell>
-                <StyledTableCell>{n.minutesUsed}</StyledTableCell>
-                {/* <StyledTableCell numeric>
-                      {(new Date(n.outTime).getTime() - new Date(n.inTime).getTime()) / (1000 * 60)}
-                    </StyledTableCell> */}
+                <StyledTableCell>
+                  {Math.floor(n.minutesUsed)}
+                  {' '}
+minutes
+                  {' '}
+                  {Math.floor(n.minutesUsed * 60 % 60)}
+                  {' '}
+seconds
+                </StyledTableCell>
               </TableRow>
             ))}
           </TableBody>

@@ -50,13 +50,10 @@ const PopularEquipmentTable = ({ data, classes }) => (
                   {' '}
 hours
                   {' '}
-                  {n.totalMinutes % 60}
+                  {Math.floor(n.totalMinutes % 60)}
                   {' '}
 minutes
                 </StyledTableCell>
-                {/* <StyledTableCell numeric>
-                      {(new Date(n.outTime).getTime() - new Date(n.inTime).getTime()) / (1000 * 60)}
-                    </StyledTableCell> */}
               </TableRow>
             ))}
           </TableBody>
