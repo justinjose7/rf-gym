@@ -40,7 +40,7 @@ Run the script found in the 'pseudo_data_script'. You will need to uncomment the
 
 Running this script will insert 25 fake users, 15 fake pieces of equipment, and approximately 4800 history entries (from one month ago until now).
 ```
-node pseudo_data_script.js
+node generatePseudoData.js
 ```
 
 ## How to use?
