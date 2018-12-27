@@ -7,7 +7,7 @@ In the gym of the future, members can swipe an RFID tag on some equipment (e.g. 
 The purpose of this project is to provide gym members with the ability to check equipment status remotely (e.g. check if bench press currently in use) and to collect and curate equipment usage / workout history data.
  
 ## Screenshots
-[RF Gym Demo] (https://github.com/justinjose7/rf-gym/blob/master/RF%20Gym.gif)
+![RF Gym Demo](https://github.com/justinjose7/rf-gym/blob/master/RF%20Gym.gif)
 
 ## Tech / Frameworks used
 - [React](https://reactjs.org/)
