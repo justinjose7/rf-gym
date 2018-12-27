@@ -9,7 +9,7 @@ The purpose of this project is to provide gym members with the ability to check 
 ## Screenshots
 Include logo/demo screenshot etc.
 
-## Tech/frameworks used
+## Tech / Frameworks used
 - [React](https://reactjs.org/)
 - [Redux](https://redux.js.org/)
 - [Express](https://expressjs.com/)
