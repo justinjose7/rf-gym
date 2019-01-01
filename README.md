@@ -7,6 +7,21 @@ In the gym of the future, members can swipe an RFID tag on some equipment (e.g. 
 The purpose of this project is to provide gym members with the ability to check equipment status remotely (e.g. check if bench press currently in use) and to collect and curate equipment usage / workout history data.
  
 ## Screenshots
+Login / Register Page
+![Demo-01](https://github.com/justinjose7/rf-gym/blob/master/readme_assets/01-home-screen.png)
+
+Live Equipment Status Page (implemented using websockets) 
+![Demo-02](https://github.com/justinjose7/rf-gym/blob/master/readme_assets/02-equipment-status.png)
+
+Equipment History Query Page (personal gym history)
+![Demo-03](https://github.com/justinjose7/rf-gym/blob/master/readme_assets/03-equipment-history.png)
+
+![Demo-04](https://github.com/justinjose7/rf-gym/blob/master/readme_assets/04-equipment-history-query.png)
+
+Overall Equipment Statistics Page (all gym members' equipment usage) 
+![Demo-05](https://github.com/justinjose7/rf-gym/blob/master/readme_assets/05-equipment-charts.png)
+
+Live Demo
 ![RF Gym Demo](https://github.com/justinjose7/rf-gym/blob/master/RF%20Gym.gif)
 
 ## Tech / Frameworks used
